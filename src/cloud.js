@@ -34,7 +34,7 @@
 /*global modules, hex_sha512*/
 
 modules = modules || {};
-modules.cloud = '2019-March-25';
+modules.cloud = '2019-July-17';
 
 // Global stuff
 
@@ -164,12 +164,16 @@ Cloud.prototype.request = function (
     body) {
 
     var request = new XMLHttpRequest(),
-        myself = this;
+        myself = this,
+        fullPath = this.url +
+            (path.indexOf('%username') > -1 ?
+                path.replace('%username', encodeURIComponent(this.username)) :
+                path);
 
     try {
         request.open(
             method,
-            this.url + path,
+            fullPath,
             true
         );
         request.setRequestHeader(
@@ -232,7 +236,7 @@ Cloud.prototype.withCredentialsRequest = function (
                 myself.request(
                     method,
                     // %username is replaced by the actual username
-                    path.replace('%username', encodeURIComponent(username)),
+                    path,
                     onSuccess,
                     onError,
                     errorMsg,
@@ -967,18 +971,24 @@ Cloud.prototype.getUserCollections = function (
     onSuccess,
     onError
 ) {
-    this.withCredentialsRequest(
+    this[(collectionUsername !== this.username) ?
+            'request' :
+            'withCredentialsRequest'](
         'GET',
         '/users/' +
             (collectionUsername ?
                 encodeURIComponent(collectionUsername) :
                 '%username') +
             '/collections?' +
-            this.encodeDict({
-                page: page || '',
-                pageSize: page ? pageSize | 16 : '',
-                matchtext: searchTerm ? encodeURIComponent(searchTerm) : ''
-            }),
+            this.encodeDict(
+                page > 0 ?
+                    {
+                        page: page,
+                        pagesize: pageSize || 16,
+                        matchtext:
+                            searchTerm ? encodeURIComponent(searchTerm) : ''
+                    } : {}
+            ),
         onSuccess,
         onError,
         'Could not fetch collections'
@@ -1019,7 +1029,7 @@ Cloud.prototype.getCollections = function (
 ) {
     var dict = {
         page: page,
-        pageSize: page ? pageSize | 16 : '',
+        pagesize: page ? pageSize || 16 : '',
     };
 
     if (searchTerm) { dict.matchtext = encodeURIComponent(searchTerm); }

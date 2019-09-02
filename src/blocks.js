@@ -148,7 +148,7 @@ CustomCommandBlockMorph, SymbolMorph, ToggleButtonMorph, DialMorph*/
 
 // Global stuff ////////////////////////////////////////////////////////
 
-modules.blocks = '2019-April-04';
+modules.blocks = '2019-August-07';
 
 var SyntaxElementMorph;
 var BlockMorph;
@@ -621,7 +621,8 @@ SyntaxElementMorph.prototype.getVarNamesDict = function () {
             dict.my = {
                 'anchor' : ['anchor'],
                 'parent' : ['parent'],
-                // 'temporary?' : ['temporary?'],
+                'name' : ['name'],
+                'temporary?' : ['temporary?'],
                 'dangling?' : ['dangling?'],
                 'draggable?' : ['draggable?'],
                 'rotation style' : ['rotation style'],
@@ -995,6 +996,47 @@ SyntaxElementMorph.prototype.labelPart = function (spec) {
                 true // read-only
             );
             break;
+        case '%aa': // audio attributes
+            part = new InputSlotMorph(
+                null, // text
+                false, // numeric?
+                {
+                    'name' : ['name'],
+                    'duration' : ['duration'],
+                    'length' : ['length'],
+                    'number of channels' : ['number of channels'],
+                    'sample rate' : ['sample rate'],
+                    'samples' : ['samples']
+                },
+                true // read-only
+            );
+            break;
+        case '%img': // image attributes
+            part = new InputSlotMorph(
+                null, // text
+                false, // numeric?
+                {
+                    'name' : ['name'],
+                    'width' : ['width'],
+                    'height' : ['height'],
+                    'pixels' : ['pixels']
+                },
+                true // read-only
+            );
+            break;
+        case '%rate':
+            part = new InputSlotMorph(
+                null,
+                true,
+                {
+                    '22.05 kHz' : 22050,
+                    '44.1 kHz' : 44100,
+                    '88.2 kHz' : 88200,
+                    '96 kHz' : 96000
+                }
+            );
+            part.setContents(1);
+            break;
         case '%month':
             part = new InputSlotMorph(
                 null, // text
@@ -1058,7 +1100,7 @@ SyntaxElementMorph.prototype.labelPart = function (spec) {
                 false, // numeric?
                 {
                     'letter' : ['letter'],
-                    'whitespace' : ['whitespace'],
+                    'word' : ['word'],
                     'line' : ['line'],
                     'tab' : ['tab'],
                     'cr' : ['cr'],
@@ -1124,6 +1166,14 @@ SyntaxElementMorph.prototype.labelPart = function (spec) {
                 true
             );
             break;
+        case '%self':
+            part = new InputSlotMorph(
+                null,
+                false,
+                'objectsMenuWithSelf',
+                true
+            );
+            break;
         case '%col': // collision detection
             part = new InputSlotMorph(
                 null,
@@ -1171,17 +1221,17 @@ SyntaxElementMorph.prototype.labelPart = function (spec) {
                 false,
                 {
                     color: ['color'],
+                    saturation: ['saturation'],
+                    brightness : ['brightness'],
+                    ghost: ['ghost'],
                     fisheye: ['fisheye'],
                     whirl: ['whirl'],
                     pixelate: ['pixelate'],
                     mosaic: ['mosaic'],
-                    duplicate: ['duplicate'],
-                    negative : ['negative'],
-                    comic: ['comic'],
-                    confetti: ['confetti'],
-                    saturation: ['saturation'],
-                    brightness : ['brightness'],
-                    ghost: ['ghost']
+                    negative : ['negative']
+                    // duplicate: ['duplicate'],
+                    // comic: ['comic'],
+                    // confetti: ['confetti']
                 },
                 true
             );
@@ -1206,6 +1256,8 @@ SyntaxElementMorph.prototype.labelPart = function (spec) {
                     'right arrow': ['right arrow'],
                     'left arrow': ['left arrow'],
                     space : ['space'],
+                    '+' : ['+'],
+                    '-' : ['-'],
                     a : ['a'],
                     b : ['b'],
                     c : ['c'],
@@ -1282,6 +1334,7 @@ SyntaxElementMorph.prototype.labelPart = function (spec) {
                 false,
                 {
                     abs : ['abs'],
+                    // '\u2212' : ['\u2212'], // minus-sign
                     neg : ['neg'],
                     ceiling : ['ceiling'],
                     floor : ['floor'],
@@ -1294,9 +1347,10 @@ SyntaxElementMorph.prototype.labelPart = function (spec) {
                     atan : ['atan'],
                     ln : ['ln'],
                     log : ['log'],
-                    log2 : ['log2'],
+                    lg : ['lg'],
                     'e^' : ['e^'],
-                    '10^' : ['10^']
+                    '10^' : ['10^'],
+                    '2^' : ['2^'],
                 },
                 true
             );
@@ -1328,6 +1382,21 @@ SyntaxElementMorph.prototype.labelPart = function (spec) {
             );
             part.setContents(['hue']);
             break;
+        case '%pen':
+            part = new InputSlotMorph(
+                null,
+                false,
+                {
+                    size : ['size'],
+                    hue : ['hue'],
+                    saturation : ['saturation'],
+                    brightness : ['brightness'],
+                    transparency : ['transparency']
+                },
+                true
+            );
+            part.setContents(['hue']);
+            break;
         case '%asp': // aspect
             part = new InputSlotMorph(
                 null,
@@ -1337,6 +1406,7 @@ SyntaxElementMorph.prototype.labelPart = function (spec) {
                     saturation : ['saturation'],
                     brightness : ['brightness'],
                     transparency : ['transparency'],
+                    'r-g-b-a' : ['r-g-b-a'],
                     '~' : null,
                     sprites : ['sprites'],
                 },
@@ -1383,7 +1453,9 @@ SyntaxElementMorph.prototype.labelPart = function (spec) {
                 false,
                 {
                     'turbo mode' : ['turbo mode'],
-                    'flat line ends' : ['flat line ends']
+                    'flat line ends' : ['flat line ends'],
+                    'video capture' : ['video capture'],
+                    'mirror video' : ['mirror video']
                 },
                 true
             );
@@ -1641,6 +1713,41 @@ SyntaxElementMorph.prototype.labelPart = function (spec) {
             part.shadowOffset = MorphicPreferences.isFlat ?
                     new Point() : this.embossing;
             part.drawNew();
+            break;
+        case '%blitz':
+            part = new SymbolMorph('flash');
+            part.size = this.fontSize;
+            part.color = new Color(255, 255, 255);
+            part.isProtectedLabel = false; // zebra colors
+            part.shadowColor = this.color.darker(this.labelContrast);
+            part.shadowOffset = MorphicPreferences.isFlat ?
+                    new Point() : this.embossing;
+            part.drawNew();
+            break;
+
+        // Video motion
+
+        case '%vid':
+            part = new InputSlotMorph(
+                null,
+                false, {
+                    'snap': ['snap'],
+                    'motion': ['motion'],
+                    'direction': ['direction']
+                },
+                true // read-only
+            );
+            part.setContents(['motion']);
+            break;
+        case '%on':
+            part = new InputSlotMorph(
+                null,
+                false, {
+                    'this sprite': ['this sprite'],
+                    'stage': ['stage']
+                },
+                true // read-only
+            );
             break;
         default:
             nop();
@@ -2163,7 +2270,10 @@ SyntaxElementMorph.prototype.showBubble = function (value, exportPic, target) {
 };
 
 SyntaxElementMorph.prototype.exportPictureWithResult = function (aBubble) {
-    var ide = this.parentThatIsA(IDE_Morph),
+    var ide = this.parentThatIsA(IDE_Morph) ||
+            this.parentThatIsA(BlockEditorMorph).target.parentThatIsA(
+                IDE_Morph
+            ),
         scr = this.fullImage(),
         bub = aBubble.fullImageClassic(),
         taller = Math.max(0, bub.height - scr.height),
@@ -2294,6 +2404,7 @@ SyntaxElementMorph.prototype.endLayout = function () {
     %f      - round function slot, unevaluated if replaced,
     %r      - round reporter slot
     %p      - hexagonal predicate slot
+    %vid    - chameleon colored rectangular drop-down for video modes
 
     rings:
 
@@ -2669,7 +2780,9 @@ BlockMorph.prototype.userMenu = function () {
                     getScale: 'size',
                     getCostumeIdx: 'costume #',
                     getVolume: 'volume',
-                    getPan: 'balance'
+                    getPan: 'balance',
+                    reportShown: 'shown?',
+                    getPenDown: 'pen down?'
                 }[this.selector];
                 if (field && rcvr && rcvr.exemplar) {
                     menu.addLine();
@@ -2724,6 +2837,54 @@ BlockMorph.prototype.userMenu = function () {
                 function () {myself.relabel(alternatives); }
             );
         }
+    }
+
+    // JIT-compile HOFs - experimental
+    if (
+        contains(
+            ['reportMap', 'reportKeep', 'reportFindFirst', 'reportCombine'],
+            this.selector
+        )
+    ) {
+        alternatives = {
+            reportMap : 'reportAtomicMap',
+            reportKeep : 'reportAtomicKeep',
+            reportFindFirst: 'reportAtomicFindFirst',
+            reportCombine : 'reportAtomicCombine'
+        };
+        menu.addItem(
+            'compile',
+            function () {
+                myself.setSelector(alternatives[myself.selector]);
+                myself.changed();
+            },
+            'experimental!\nmake this reporter fast and uninterruptable\n' +
+                'CAUTION: Errors in the ring\ncan break your Snap! session!'
+        );
+    } else if (
+        contains(
+            [
+                'reportAtomicMap',
+                'reportAtomicKeep',
+                'reportAtomicFindFirst',
+                'reportAtomicCombine'
+            ],
+            this.selector
+        )
+    ) {
+        alternatives = {
+            reportAtomicMap : 'reportMap',
+            reportAtomicKeep : 'reportKeep',
+            reportAtomicFindFirst: 'reportFindFirst',
+            reportAtomicCombine : 'reportCombine'
+        };
+        menu.addItem(
+            'uncompile',
+            function () {
+                myself.setSelector(alternatives[myself.selector]);
+                myself.changed();
+            }
+        );
     }
 
     menu.addItem(
@@ -8740,12 +8901,19 @@ InputSlotMorph.prototype.clonablesMenu = function () {
     return dict;
 };
 
-InputSlotMorph.prototype.objectsMenu = function () {
+InputSlotMorph.prototype.objectsMenuWithSelf = function () {
+    return this.objectsMenu(true);
+};
+
+InputSlotMorph.prototype.objectsMenu = function (includeMyself) {
     var rcvr = this.parentThatIsA(BlockMorph).scriptTarget(),
         stage = rcvr.parentThatIsA(StageMorph),
         dict = {},
         allNames = [];
 
+    if (includeMyself) {
+        dict.myself = ['myself'];
+    }
     dict[stage.name] = stage.name;
     stage.children.forEach(function (morph) {
         if (morph instanceof SpriteMorph && !morph.isTemporary) {
@@ -8780,30 +8948,33 @@ InputSlotMorph.prototype.typesMenu = function () {
 };
 
 InputSlotMorph.prototype.gettablesMenu = function () {
-    var dict = {
-        neighbors : ['neighbors'],
-        self : ['self'],
-        'other sprites' : ['other sprites'],
-        clones : ['clones'],
-        'other clones' : ['other clones']
-    };
-    if (SpriteMorph.prototype.enableNesting) {
+    var dict = {},
+        nest = SpriteMorph.prototype.enableNesting,
+        oop = StageMorph.prototype.enableInheritance;
+
+    dict.neighbors = ['neighbors'];
+    dict.self = ['self'];
+    dict['other sprites'] = ['other sprites'];
+    dict.clones = ['clones'];
+    dict['other clones'] = ['other clones'];
+    if (nest) {
         dict.parts = ['parts'];
         dict.anchor = ['anchor'];
     }
     dict.stage = ['stage'];
-    if (StageMorph.prototype.enableInheritance) {
+    if (oop) {
         dict.children = ['children'];
         dict.parent = ['parent'];
-        if (this.world().isDevMode) {
-            dict['temporary?'] = ['temporary?'];
-        }
+        dict['temporary?'] = ['temporary?'];
     }
     dict.name = ['name'];
+    dict.costume = ['costume'];
     dict.costumes = ['costumes'];
     dict.sounds = ['sounds'];
     dict['dangling?'] = ['dangling?'];
     dict['draggable?'] = ['draggable?'];
+    dict.width = ['width'];
+    dict.height = ['height'];
     dict['rotation style'] = ['rotation style'];
     dict['rotation x'] = ['rotation x'];
     dict['rotation y'] = ['rotation y'];
@@ -8842,6 +9013,8 @@ InputSlotMorph.prototype.attributesMenu = function () {
             'costume #' : ['costume #'],
             'costume name' : ['costume name'],
             'size' : ['size'],
+            'width': ['width'],
+            'height': ['height'],
             'volume' : ['volume'],
             'balance' : ['balance']
         };
@@ -8877,6 +9050,7 @@ InputSlotMorph.prototype.costumesMenu = function () {
     } else { // stage
         dict = {Empty : ['Empty']};
     }
+    dict.current = ['current'];
     rcvr.costumes.asArray().forEach(function (costume) {
         allNames = allNames.concat(costume.name);
     });
@@ -8979,6 +9153,7 @@ InputSlotMorph.prototype.audioMenu = function () {
         'note' : ['note'],
         'frequency' : ['frequency'],
         'samples' : ['samples'],
+        'sample rate' : ['sample rate'],
         'spectrum' : ['spectrum'],
         'resolution' : ['resolution']
     };
@@ -9097,14 +9272,9 @@ InputSlotMorph.prototype.fixLayout = function () {
 // InputSlotMorph events:
 
 InputSlotMorph.prototype.mouseDownLeft = function (pos) {
-    var world;
     if (this.isReadOnly || this.arrow().bounds.containsPoint(pos)) {
         this.escalateEvent('mouseDownLeft', pos);
     } else {
-        world = this.world();
-        if (world) {
-            world.stopEditing();
-        }
         this.selectForEdit().contents().edit();
     }
 };
@@ -10678,9 +10848,11 @@ MultiArgMorph.prototype.init = function (
     this.noticesTransparentclick = true;
 
     // label text:
-    label = this.labelPart(this.labelText);
-    this.add(label);
-    label.hide();
+    if (this.labelText || (this.slotSpec === '%cs')) {
+        label = this.labelPart(this.labelText);
+        this.add(label);
+        label.hide();
+    }
 
     // left arrow:
     leftArrow = new ArrowMorph(
@@ -10713,7 +10885,7 @@ MultiArgMorph.prototype.init = function (
 };
 
 MultiArgMorph.prototype.label = function () {
-    return this.children[0];
+    return this.labelText ? this.children[0] : null;
 };
 
 MultiArgMorph.prototype.arrows = function () {
@@ -10774,18 +10946,19 @@ MultiArgMorph.prototype.setLabelColor = function (
 // MultiArgMorph layout:
 
 MultiArgMorph.prototype.fixLayout = function () {
+    var label, shadowColor, shadowOffset;
     if (this.slotSpec === '%t') {
         this.isStatic = true; // in this case I cannot be exchanged
     }
     if (this.parent) {
-        var label = this.label(), shadowColor, shadowOffset;
+        label = this.label();
         this.color = this.parent.color;
-        shadowColor = this.shadowColor ||
-            this.parent.color.darker(this.labelContrast);
-        shadowOffset = this.shadowOffset || label.shadowOffset;
         this.arrows().color = this.color;
-
-        if (this.labelText !== '') {
+        if (label) {
+            shadowColor = this.shadowColor ||
+                this.parent.color.darker(this.labelContrast);
+            shadowOffset = this.shadowOffset ||
+                (label ? label.shadowOffset : null);
             if (!label.shadowColor.eq(shadowColor)) {
                 label.shadowColor = shadowColor;
                 label.shadowOffset = shadowOffset;
@@ -10808,14 +10981,16 @@ MultiArgMorph.prototype.fixArrowsLayout = function () {
         rightArrow = arrows.children[1],
         dim = new Point(rightArrow.width() / 2, rightArrow.height());
     if (this.inputs().length < (this.minInputs + 1)) {
-        label.hide();
+        if (label) {
+            label.hide();
+        }
         leftArrow.hide();
         rightArrow.setPosition(
             arrows.position().subtract(new Point(dim.x, 0))
         );
         arrows.setExtent(dim);
     } else {
-        if (this.labelText !== '') {
+        if (label) {
             label.show();
         }
         leftArrow.show();
@@ -10849,6 +11024,10 @@ MultiArgMorph.prototype.addInput = function (contents) {
             this.elementSpec === '%blockVars') {
         name = '';
         i = idx;
+        if (this.elementSpec === '%scriptVars') {
+            // compensate for missing label element
+            i += 1;
+        }
         while (i > 0) {
             name = String.fromCharCode(97 + (i - 1) % 26) + name;
             i = Math.floor((i - 1) / 26);
@@ -12273,7 +12452,23 @@ CommentMorph.prototype.userMenu = function () {
     menu.addItem(
         "duplicate",
         function () {
-            myself.fullCopy().pickUp(myself.world());
+            var dup = myself.fullCopy(),
+                ide = myself.parentThatIsA(IDE_Morph),
+                blockEditor = myself.parentThatIsA(BlockEditorMorph),
+                world = myself.world();
+            dup.pickUp(world);
+            // register the drop-origin, so the comment can
+            // slide back to its former situation if dropped
+            // somewhere where it gets rejected
+            if (!ide && blockEditor) {
+                ide = blockEditor.target.parentThatIsA(IDE_Morph);
+            }
+            if (ide) {
+                world.hand.grabOrigin = {
+                    origin: ide.palette,
+                    position: ide.palette.center()
+                };
+            }
         },
         'make a copy\nand pick it up'
     );
@@ -12696,6 +12891,18 @@ ScriptFocusMorph.prototype.deleteLastElement = function () {
 };
 
 ScriptFocusMorph.prototype.insertBlock = function (block) {
+    // insert the block after a short gliding animation
+    var myself = this;
+    this.world().add(block);
+    block.glideTo(
+        this.position(),
+        null,
+        null,
+        function () {myself.fillInBlock(block); }
+    );
+};
+
+ScriptFocusMorph.prototype.fillInBlock = function (block) {
     var pb, stage, ide, rcvr;
     block.isTemplate = false;
     block.isDraggable = true;

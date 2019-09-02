@@ -185,7 +185,7 @@ SnapTranslator.dict.ca = {
     'translator_e-mail':
         'bernat@snap4arduino.rocks, jguille2@xtec.cat', // optional
     'last_changed':
-        '2019-03-17', // this, too, will appear in the Translators tab
+        '2019-06-25', // this, too, will appear in the Translators tab
 
     // GUI
     // control bar:
@@ -360,6 +360,8 @@ SnapTranslator.dict.ca = {
         'mostra',
     'hide':
         'amaga',
+    'shown?':
+        'visible?',
     'go to %layer layer':
         'vés a la capa del %layer',
     'go back %n layers':
@@ -409,6 +411,8 @@ SnapTranslator.dict.ca = {
         'baixa el llapis',
     'pen up':
         'puja el llapis',
+    'pen down?':
+        'llapis abaixat?',
     'set pen color to %clr':
         'fixa el color del llapis a %clr',
     'change pen color by %n':
@@ -479,10 +483,14 @@ SnapTranslator.dict.ca = {
         'repeteix %n vegades %loop',
     'repeat until %b %loop':
         'repeteix fins %b %loop',
+    'for %upvar = %n to %n %cla':
+        'per %upvar = %n fins %n %cla',
     'if %b %c':
         'si %b llavors %c',
     'if %b %c else %c':
         'si %b llavors %c si no %c',
+    'if %b then %s else %s':
+        'si %b llavors %s si no %s',
     'report %s':
         'retorna %s',
     'stop %stopChoices':
@@ -573,14 +581,26 @@ SnapTranslator.dict.ca = {
         'mode turbo',
     'flat line ends':
         'puntes de llapis planes',
+    'video %vid on %self':
+        '%vid del vídeo en %self',
+    'motion':
+        'moviment',
+    'snap':
+        'instantània',
+    'set video transparency to %n':
+        'fixa la transparència del vídeo a %n',
+    'video capture':
+        'captura de vídeo',
+    'mirror video':
+        'mirall sobre el vídeo',
     'filtered for %clr':
         'filtrat per a %clr',
     'stack size':
         'mida de la pila',
     'frames':
         'frames',
-    'object %spr':
-        'objecte %spr',
+    'object %self':
+        'objecte %self',
     // operators:
     '%n mod %n':
         'residu de dividir %n entre %n',
@@ -601,7 +621,7 @@ SnapTranslator.dict.ca = {
     'false':
         'fals',
     'join %words':
-        'unir %words',
+        'uneix %words',
     'split %s by %delim':
         'divideix %s per %delim',
     'hello':
@@ -650,6 +670,8 @@ SnapTranslator.dict.ca = {
     // lists:
     'list %exp':
         'llista %exp',
+    'numbers from %n to %n':
+        'nombres des de %n a %n',
     '%s in front of %l':
         'afegeix %s davant de %l',
     'item %idx of %l':
@@ -662,6 +684,28 @@ SnapTranslator.dict.ca = {
         '%l conté %s',
     'thing':
         'cosa',
+    'is %l empty?':
+        '%l buida?',
+    'map %repRing over %l':
+        'mapeja %repRing sobre %l',
+    'keep items %predRing from %l':
+        'manté els elements on %predRing de %l',
+    'find first item %predRing in %l':
+        'primer element on %predRing de %l',
+    'combine %l using %repRing':
+        'combina els elements de %l amb %repRing',
+    '%blitz map %repRing over %l':
+        '%blitz mapeja %repRing sobre %l',
+    '%blitz keep items %predRing from %l':
+        '%blitz manté els elements on %predRing de %l',
+    '%blitz find first item %predRing in %l':
+        '%blitz primer element on %predRing de %l',
+    '%blitz combine %l using %repRing':
+        '%blitz combina els elements de %l amb %repRing',
+    'for each %upvar in %l %cla':
+        'per cada %upvar de %l %cla',
+    'item':
+        'element',
     'add %s to %l':
         'afegeix %s a %l',
     'delete %ida of %l':
@@ -753,10 +797,6 @@ SnapTranslator.dict.ca = {
         'Blocs',
     'For all Sprites':
         'Per a tots els objectes', 
-    'Import tools':
-        'Importa eines',
-    'load the official library of\npowerful blocks':
-        'Carrega la llibreria\noficial de blocs avançats',
     'Libraries...':
         'Llibreries...',
     'Import library':
@@ -917,7 +957,13 @@ SnapTranslator.dict.ca = {
         'ajuda...',
     'relabel...':
         'blocs similars...',
-    'duplicate':
+    'compile':
+        'compila',
+    'experimental!\nmake this reporter fast and uninterruptable\nCAUTION: Errors in the ring\ncan break your Snap! session!':
+    'és experimental!\naccelera aquest reportador executant-lo ininterrompudament\nCOMPTE: Errades en les condicions d\'entrada\npodrien penjar la sessió d\'Snap!',
+    'uncompile':
+        'descompila',
+     'duplicate':
         'duplica\'m',
     'make a copy\nand pick it up':
         'crea una còpia\ni fes-la servir',
@@ -1264,6 +1310,10 @@ SnapTranslator.dict.ca = {
         'Valor mínim del lliscador...',
     'Slider maximum value':
         'Valor màxim del lliscador...',
+    'raw data...':
+        'importa sense processar...',
+    'import without attempting to\nparse or format data':
+        'importa contingut sense tractar-lo ni donar-li format',
 
     // list watchers
     'length: ':
@@ -1455,6 +1505,8 @@ SnapTranslator.dict.ca = {
     // delimiters
     'letter':
         'lletra',
+    'word':
+        'paraula',
     'whitespace':
         'espai en blanc',
     'line':
@@ -1501,6 +1553,8 @@ SnapTranslator.dict.ca = {
         'àncora',
     'parent':
         'pare',
+    'temporary?':
+        'temporal?',
     'children':
         'fill',
     'clones':
@@ -2150,10 +2204,6 @@ SnapTranslator.dict.ca = {
 		'imatge de l\'escenari',
 	'processes':
 		'processos',
-	'map %repRing over %l':
-		'mapeja %repRing sobre %l',
-	'for %upvar in %l %cl':
-		'per cada %upvar dins %l %cl',
 	'show table %l':
 		'mostra la taula %l',
 	'%txtfun of %s':
@@ -2499,11 +2549,9 @@ SnapTranslator.dict.ca = {
     'max':
         'màxima',
 //
-    'play %n hz for %n secs':
+    'play %n Hz for %n secs':
         'toca %n Hz durant %n segons',
 //libreries
-    'Tools':
-        'Eines',
     'Text Costumes':
         'Text als vestits',
     'Provide getters and setters for all GUI-controlled global settings':
@@ -2523,7 +2571,9 @@ SnapTranslator.dict.ca = {
     '"Bigger" Data':
         'Treballant amb "Big Data"',
     'Frequency Distribution Analysis':
-        'Analisi de la disbribució de freqüències',
+        'Anàlisi de la distribució de freqüències',
+    'World Map':
+        'Mapa del món',
     'create variables in program':
         'Creant variables des del programa',
     'Deal with JSON data':
@@ -2544,8 +2594,8 @@ SnapTranslator.dict.ca = {
         'Versions dels blocs +, x, AND i OR que tenen més de dues ranures',
     'An extended version of the HTTP:// block that allows POST, PUT, and DELETE as well as GET requests, allows using the secure HTTPS protocol, and gives control over headers, etc.':
         'Una versió ampliada del bloc "URL" que permet treballar amb  crides "POST", "PUT", "DELETE" i "GET" i també triar el protocol "HTTP-HTTPS" i controlar les capçaleres',
-    'One of the big ideas in Logo that they left out of Scratch is thinking of text as structured into words and sentences, rather than just a string of characters.  This library (along with the JOIN WORDS block in the Tools library) brings back that idea.':
-        'Una de les idees importants en Logo i que va continuar Scratch era pensar en els textos com a una estructura de paraules i frases, més que no com una llista de caràcters. Aquesta llibreria (juntament amb el bloc "JOIN WORDS" de la llibreria d\'Eines) torna a desenvolupar aquesta idea.',
+    'One of the big ideas in Logo that they left out of Scratch is thinking of text as structured into words and sentences, rather than just a string of characters.  This library brings back that idea.':
+        'Una de les idees importants en Logo i que va continuar Scratch era pensar en els textos com a una estructura de paraules i frases, més que no com una llista de caràcters. Aquesta llibreria torna a desenvolupar aquesta idea.',
     'Like "switch" in C-like languages or "cond" in Lisp.  Thanks to Nathan Dinsmore for inventing the idea of a separate block for each branch!':
         'La mateixa idea que la comanda "switch" en llenguatges tipus C o "cond" en Lisp. Gràcies a Nathan Dinsmore per inventar la idea de tenir un bloc separat per a cada branca!',
     'Report hand positions from LEAP Motion controller (leapmotion.com).':
@@ -2586,6 +2636,64 @@ SnapTranslator.dict.ca = {
         'Extreu sub-cadenes de texts de diverses formes',
 //
     'translations...':
-         'traduccions...'
-    
+         'traduccions...',
+    'width':
+        'amplada',
+    'height':
+        'alçada',
+    'pixel':
+        'píxel',
+    'pixels':
+        'píxels',
+    '%img of costume %cst':
+        '%img del vestit %cst',
+    'stretch %cst x: %n y: %n %':
+        'estira %cst a x: %n y: %n %',
+    '%eff effect':
+        'efecte %eff',
+    'current':
+        'actual',
+    'play sound %snd at %rate Hz':
+        'toca el so %snd a %rate Hz',
+    '%aa of sound %snd':
+        '%aa del so %snd',
+    'duration':
+        'durada',
+    'length':
+        'longitud',
+    'number of channels':
+        'número de canals',
+    'sample rate':
+        'freqüència de mostreig',
+    'samples':
+        'mostres',
+    'change volume by %n':
+        'augmenta el volum en %n',
+    'set volume to %n %':
+        'fixa el volum a %n %',
+    'change balance by %n':
+        'augmenta el balanç en %n',
+    'set balance to %n':
+        'fixa el balanç a %n',
+    'balance':
+        'balanç',
+    'play frequency %n Hz':
+        'toca la freqüència %n Hz',
+    'stop frequency':
+        'atura la freqüència',
+    'pen %pen':
+        '%pen del llapis',
+    'write %s size %n':
+        'escriu %s de mida %n',
+    'draggable?':
+        'arrossegable?',
+    'frequency':
+        'freqüència',
+    'spectrum':
+        'espectre',
+    'resolution':
+        'resolució',
+    'neg':
+        'oposat'
+
 };

@@ -75,7 +75,7 @@ isRetinaSupported, SliderMorph, Animation, BoxMorph, MediaRecorder*/
 
 // Global stuff ////////////////////////////////////////////////////////
 
-modules.gui = '2019-March-25';
+modules.gui = '2019-August-08';
 
 // Declarations
 
@@ -1328,6 +1328,7 @@ IDE_Morph.prototype.createSpriteBar = function () {
     nameField.contrast = 90;
     nameField.setPosition(thumbnail.topRight().add(new Point(10, 3)));
     this.spriteBar.add(nameField);
+    this.spriteBar.nameField = nameField;
     nameField.drawNew();
     nameField.accept = function () {
         var newName = nameField.getValue();
@@ -1475,6 +1476,7 @@ IDE_Morph.prototype.createSpriteEditor = function () {
             null,
             this.sliderColor
         );
+        this.spriteEditor.color = this.groupColor;
         this.spriteEditor.padding = 10;
         this.spriteEditor.growth = 50;
         this.spriteEditor.isDraggable = false;
@@ -3277,22 +3279,6 @@ IDE_Morph.prototype.projectMenu = function () {
 
     menu.addLine();
     menu.addItem(
-        'Import tools',
-        function () {
-            if (location.protocol === 'file:') {
-                myself.importLocalFile();
-                return;
-            }
-            myself.getURL(
-                myself.resourceURL('libraries', 'tools.xml'),
-                function (txt) {
-                    myself.droppedText(txt, 'tools');
-                }
-            );
-        },
-        'load the official library of\npowerful blocks'
-    );
-    menu.addItem(
         'Libraries...',
         function() {
             if (location.protocol === 'file:') {
@@ -3610,7 +3596,7 @@ IDE_Morph.prototype.aboutSnap = function () {
         module, btn1, btn2, btn3, btn4, licenseBtn, translatorsBtn,
         world = this.world();
 
-    aboutTxt = 'Snap! 5 - Beta -\nBuild Your Own Blocks\n\n'
+    aboutTxt = 'Snap! 5.1.0\nBuild Your Own Blocks\n\n'
         + 'Copyright \u24B8 2019 Jens M\u00F6nig and '
         + 'Brian Harvey\n'
         + 'jens@moenig.org, bh@cs.berkeley.edu\n\n'
@@ -3649,11 +3635,15 @@ IDE_Morph.prototype.aboutSnap = function () {
     creditsTxt = localize('Contributors')
         + '\n\nNathan Dinsmore: Saving/Loading, Snap-Logo Design, '
         + '\ncountless bugfixes and optimizations'
-        + '\nKartik Chandra: Paint Editor'
         + '\nMichael Ball: Time/Date UI, Library Import Dialog,'
         + '\ncountless bugfixes and optimizations'
-        + '\nBartosz Leper: Retina Display Support'
         + '\nBernat Romagosa: Countless contributions'
+        + '\nBartosz Leper: Retina Display Support'
+        + '\nZhenlei Jia and Dariusz Dorożalski: IME text editing'
+        + '\nKen Kahn: IME support and countless other contributions'
+        + '\nJosep Ferràndiz: Video Motion Detection'
+        + '\nJoan Guillén: Countless contributions'
+        + '\nKartik Chandra: Paint Editor'
         + '\nCarles Paredes: Initial Vector Paint Editor'
         + '\n"Ava" Yuan Yuan, Dylan Servilla: Graphic Effects'
         + '\nKyle Hotchkiss: Block search design'
@@ -5305,7 +5295,7 @@ IDE_Morph.prototype.userSetBlocksScale = function () {
         false, // read only?
         true, // numeric
         1, // slider min
-        12, // slider max
+        5, // slider max
         action // slider action
     );
 };
@@ -5378,6 +5368,7 @@ IDE_Morph.prototype.setStageExtent = function (aPoint) {
     this.stageRatio = 1;
     this.isSmallStage = false;
     this.controlBar.stageSizeButton.refresh();
+    this.stage.stopVideo();
     this.setExtent(world.extent());
     if (this.isAnimating) {
         zoom();
@@ -6045,10 +6036,19 @@ ProjectDialogMorph.prototype.init = function (ide, task) {
     this.key = 'project' + task;
 
     // build contents
-    this.buildContents();
-    this.onNextStep = function () { // yield to show "updating" message
-        myself.setSource(myself.source);
-    };
+    if (task === 'open' && this.source === 'disk') {
+        // give the user a chance to switch to another source
+        this.source = null;
+        this.buildContents();
+        this.projectList = [];
+        this.listField.hide();
+        this.source = 'disk';
+    } else {
+        this.buildContents();
+        this.onNextStep = function () { // yield to show "updating" message
+            myself.setSource(myself.source);
+        };
+    }
 };
 
 ProjectDialogMorph.prototype.buildContents = function () {
@@ -6081,7 +6081,8 @@ ProjectDialogMorph.prototype.buildContents = function () {
     if (this.task === 'open') {
         this.buildFilterField();
         this.addSourceButton('examples', localize('Examples'), 'poster');
-        if (this.ide.world().currentKey === 16) { // shiftClicked
+        if (this.hasLocalProjects() || this.ide.world().currentKey === 16) {
+            // shift- clicked
             this.addSourceButton('local', localize('Browser'), 'globe');
         }
     }
@@ -6557,6 +6558,15 @@ ProjectDialogMorph.prototype.setSource = function (source) {
     if (this.task === 'open') {
         this.clearDetails();
     }
+};
+
+ProjectDialogMorph.prototype.hasLocalProjects = function () {
+    // check and report whether old projects still exist in the
+    // browser's local storage, which as of v5 has been deprecated,
+    // so the user can recover and move them elsewhere
+    return Object.keys(localStorage).some(function (any) {
+        return any.indexOf('-snap-project-') === 0;
+    });
 };
 
 ProjectDialogMorph.prototype.getLocalProjectList = function () {

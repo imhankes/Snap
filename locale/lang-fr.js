@@ -197,7 +197,7 @@ SnapTranslator.dict.fr = {
     'translator_e-mail':
         'i.scool@mac.com', // optional
     'last_changed':
-        '2019-03-26', // this, too, will appear in the Translators tab
+        '2019-06-25', // this, too, will appear in the Translators tab
 
     // GUI
     // control bar:
@@ -466,10 +466,14 @@ SnapTranslator.dict.fr = {
         'r\u00E9p\u00E9ter %n fois %loop',
     'repeat until %b %loop':
         'r\u00E9p\u00E9ter jusqu\u0027\u00E0 %b %loop',
+    'for %upvar = %n to %n %cla':
+        'pour %upvar allant de %n à %n %cla',
     'if %b %c':
         'si %b %c',
     'if %b %c else %c':
         'si %b %c sinon %c',
+    'if %b then %s else %s':
+        'si %b alors %s sinon %s',
     'report %s':
         'rapporte %s',
     'stop block':
@@ -497,7 +501,7 @@ SnapTranslator.dict.fr = {
     'call %cmdRing w/continuation':
         'appelle %cmdRing avec continuation',
     'warp %c':
-        'Englobe %c',
+        'warp %c',
     'when I start as a clone':
         'Quand je commence comme clone',
     'create a clone of %cln':
@@ -682,6 +686,8 @@ SnapTranslator.dict.fr = {
     // lists:
     'list %exp':
         'liste %exp',
+    'numbers from %n to %n':
+        'nombres de %n à %n',
     '%s in front of %l':
         '%s au d\u00E9but de %l',
     'item %idx of %l':
@@ -694,6 +700,24 @@ SnapTranslator.dict.fr = {
         '%l contient %s',
     'thing':
         'qqchose',
+    'is %l empty?':
+        '%l vide?',
+    'map %repRing over %l':
+        'appliquer %repRing à %l',
+    'keep items %predRing from %l':
+        'garder les items tels que %predRing de %l',
+    'combine %l using %repRing':
+        'combine les items de %l avec %repRing',
+    '%blitz map %repRing over %l':
+        '%blitz appliquer %repRing à %l',
+    '%blitz keep items %predRing from %l':
+        '%blitz garder les items tels que %predRing de %l',
+    '%blitz combine %l using %repRing':
+        '%blitz combine les items de %l avec %repRing',
+    'for each %upvar in %l %cla':
+        'pour chaque %upvar de %l %cla',
+    'item':
+        'item',
     'add %s to %l':
         'ajouter %s \u00E0 %l',
     'delete %ida of %l':
@@ -769,8 +793,6 @@ SnapTranslator.dict.fr = {
         'Exporter un r\u00E9sum\u00E9...',
     'open a new browser browser window\n with a summary of this project':
         'voir un résumé de ce projet dans\nune nouvelle fenêtre du navigateur',
-    'Import tools':
-        'Importer les outils',
     'load the official library of\npowerful blocks':
         'Importer la biblioth\u00E8que officielle\nd\'outils avanc\u00E9s',
     'Libraries...':
